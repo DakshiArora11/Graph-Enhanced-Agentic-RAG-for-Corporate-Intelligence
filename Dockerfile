@@ -4,22 +4,25 @@ FROM python:3.11-slim
 # Set working directory inside container
 WORKDIR /app
 
-# Install system dependencies (optional but improves build reliability)
+# Install build dependencies for scikit-learn and numpy
 RUN apt-get update && apt-get install -y \
     build-essential \
+    g++ \
+    libopenblas-dev \
+    liblapack-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy only the requirements first (for layer caching)
+# Copy requirements first
 COPY requirements.txt .
 
-# Install dependencies
-RUN pip install --upgrade pip && pip install -r requirements.txt
+# Upgrade pip and install Python dependencies
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the code
+# Copy rest of the app
 COPY . .
 
-# Expose the port required by Render
+# Expose the required port for Render
 EXPOSE 10000
 
-# Start the Streamlit app correctly for Render
+# Run the Streamlit app
 CMD ["streamlit", "run", "app.py", "--server.port=10000", "--server.address=0.0.0.0", "--server.enableCORS=false"]
