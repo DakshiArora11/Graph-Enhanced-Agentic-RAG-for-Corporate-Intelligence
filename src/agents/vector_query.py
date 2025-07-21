@@ -8,7 +8,7 @@ import os
 import chromadb
 temp_dir = os.path.join(tempfile.gettempdir(), "chroma_db")
 os.makedirs(temp_dir, exist_ok=True)  # Ensure directory exists
-client = chromadb.PersistentClient(path=temp_dir)
+client = chromadb.Client(path=temp_dir)
 
 collection = client.get_or_create_collection(
     name=settings.VECTOR_COLLECTION_NAME,
