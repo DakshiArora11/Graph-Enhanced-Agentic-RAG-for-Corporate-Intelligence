@@ -2,10 +2,13 @@
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from config.settings import settings
 import chromadb
-
+import os 
 embedding_function = SentenceTransformerEmbeddingFunction(model_name=settings.EMBEDDING_MODEL)
 import tempfile 
-client = chromadb.PersistentClient(path=tempfile.gettempdir())
+
+temp_dir = os.path.join(tempfile.gettempdir(), "chroma_db")
+os.makedirs(temp_dir, exist_ok=True)
+client = chromadb.PersistentClient(path=temp_dir)
 
 collection = client.get_or_create_collection(
     name=settings.VECTOR_COLLECTION_NAME,
