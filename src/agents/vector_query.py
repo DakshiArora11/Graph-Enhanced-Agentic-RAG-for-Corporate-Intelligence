@@ -4,7 +4,8 @@ from config.settings import settings
 import chromadb
 
 embedding_function = SentenceTransformerEmbeddingFunction(model_name=settings.EMBEDDING_MODEL)
-
+import tempfile
+CHROMA_PERSIST_DIRECTORY = tempfile.gettempdir()  
 client = chromadb.PersistentClient(path=settings.CHROMA_PERSIST_DIRECTORY)
 
 collection = client.get_or_create_collection(
