@@ -1,14 +1,14 @@
 # src/agents/vector_query.py
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from config.settings import settings
-import chromadb
-import os 
 embedding_function = SentenceTransformerEmbeddingFunction(model_name=settings.EMBEDDING_MODEL)
-import tempfile 
 
+import tempfile
+import os
+import chromadb
 temp_dir = os.path.join(tempfile.gettempdir(), "chroma_db")
-os.makedirs(temp_dir, exist_ok=True)
-client = chromadb.Client(path=temp_dir)
+os.makedirs(temp_dir, exist_ok=True)  # Ensure directory exists
+client = chromadb.PersistentClient(path=temp_dir)
 
 collection = client.get_or_create_collection(
     name=settings.VECTOR_COLLECTION_NAME,
