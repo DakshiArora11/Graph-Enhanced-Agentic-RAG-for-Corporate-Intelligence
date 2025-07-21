@@ -1,4 +1,7 @@
 # app.py
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), ".")))
 import streamlit as st
 from src.agents.query_analysis import classify_query_type
 from src.agents.vector_query import query_chromadb
@@ -6,7 +9,6 @@ from src.agents.graph_query import query_neo4j
 from src.agents.response_synthesis import synthesize_response
 import time
 from pymongo import MongoClient
-import os
 import json
 from datetime import datetime
 
