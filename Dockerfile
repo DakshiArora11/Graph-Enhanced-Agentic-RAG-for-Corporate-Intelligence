@@ -1,8 +1,13 @@
-# Use a Python base image
-FROM python:3.9-slim
+# Use a Python 3.11 slim base image
+FROM python:3.11-slim
 
 # Set working directory inside container
 WORKDIR /app
+
+# Install system dependencies (optional but improves build reliability)
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy only the requirements first (for layer caching)
 COPY requirements.txt .
